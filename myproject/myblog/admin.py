@@ -1,10 +1,19 @@
-# Location myproject>myblog>admin.py
-# Register your models here.
-
 from django.contrib import admin
 from django import forms
-
+# Register your models here.
 from myblog.models import MyBlog, Tag
 
-admin.site.register(MyBlog)
+from django.contrib import admin as admin_module
+
+class BlogForm(forms.ModelForm):
+    body= forms.CharField(widget=forms.Textarea)
+    class Meta:
+        model = MyBlog
+
+
+class BlogAdmin(admin.ModelAdmin):
+    form = BlogForm
+    filter_horizontal = ('tags',)
+
+admin.site.register(MyBlog, BlogAdmin)
 admin.site.register(Tag)
